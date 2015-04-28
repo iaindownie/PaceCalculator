@@ -38,8 +38,7 @@ public class PaceCalcKilo extends Activity {
 	private ListView lv;
 	private PackageInfo pInfo = null;
 	private Button switchButton;
-	//private Intent intent;
-	//private Bundle myBundle;
+
 
 	/** Called when the activity is first created. */
 	@Override
@@ -58,36 +57,6 @@ public class PaceCalcKilo extends Activity {
 		text1c.setWidth(10);
 		lv = (ListView) findViewById(R.id.ListViewMetric);
 
-		/*intent = this.getIntent();
-		myBundle = intent.getExtras();
-		if (myBundle != null) {
-			String text1aSTR = myBundle.getString("text1a");
-			String text1bSTR = myBundle.getString("text1b");
-			String text1cSTR = myBundle.getString("text1c");
-			text1a.setText(text1aSTR);
-			text1b.setText(text1bSTR);
-			text1c.setText(text1cSTR);
-			if (!myBundle.getString("text2").equals("")) {
-				Double int2STR = (double) (Double.parseDouble(myBundle
-						.getString("text2")) * 1.609344);
-				text2.setText(int2STR.toString());
-			}
-			String text3aSTR = myBundle.getString("text3a");
-			String text3bSTR = myBundle.getString("text3b");
-			String text3cSTR = myBundle.getString("text3c");
-			String combinedText3 = this.convertPace(text3aSTR, text3bSTR,
-					text3cSTR);
-			if (!combinedText3.equals("00:00:0.0")) {
-				text3a.setText(combinedText3.substring(0,
-						combinedText3.indexOf(":")));
-				text3b.setText(combinedText3.substring(
-						combinedText3.indexOf(":") + 1,
-						combinedText3.lastIndexOf(":")));
-				text3c.setText(combinedText3.substring(combinedText3
-						.lastIndexOf(":") + 1));
-			}
-		}*/
-
 		s = (Spinner) findViewById(R.id.SpinnerMetric);
 		ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
 				R.array.metric, android.R.layout.simple_spinner_item);
@@ -99,9 +68,7 @@ public class PaceCalcKilo extends Activity {
 					int selectedPosition, long arg3) {
 
 				if (selectedPosition == 0) {
-					//if (myBundle.getString("text2").equals("")) {
-						text2.setText("");
-					//}
+					text2.setText("");
 					lv.setAdapter(null);
 				} else {
 					String str = getPresetDistance(selectedPosition);
@@ -119,15 +86,6 @@ public class PaceCalcKilo extends Activity {
 			public void onClick(View v) {
 				Intent switchMetric = new Intent(getBaseContext(),
 						PaceCalc.class);
-				/*Bundle myBundle = new Bundle();
-				myBundle.putString("text1a", text1a.getText().toString());
-				myBundle.putString("text1b", text1b.getText().toString());
-				myBundle.putString("text1c", text1c.getText().toString());
-				myBundle.putString("text2", text2.getText().toString());
-				myBundle.putString("text3a", text3a.getText().toString());
-				myBundle.putString("text3b", text3b.getText().toString());
-				myBundle.putString("text3c", text3c.getText().toString());
-				switchMetric.putExtras(myBundle);*/
 				startActivity(switchMetric);
 				PaceCalcKilo.this.finish();
 			}

@@ -9,10 +9,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -38,14 +41,18 @@ public class PaceCalc extends Activity {
 	private ListView lv;
 	private PackageInfo pInfo = null;
 	private Button switchButton;
-	//private Intent intent;
-	//private Bundle myBundle;
+	private Button clearButton;
+	private Button timeButton;
+	private Button distanceButton;
+	private Button paceButton;
+	private TextView title;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main); // bind the layout to the activity
+		title = (TextView) findViewById(R.id.strap);
 		text1a = (EditText) findViewById(R.id.EditText01a);
 		text1b = (EditText) findViewById(R.id.EditText01b);
 		text1c = (EditText) findViewById(R.id.EditText01c);
@@ -58,51 +65,22 @@ public class PaceCalc extends Activity {
 		text1c.setWidth(10);
 		lv = (ListView) findViewById(R.id.ListView01);
 
-		/*intent = this.getIntent();
-		myBundle = intent.getExtras();
-		if (myBundle != null) {
-			String text1aSTR = myBundle.getString("text1a");
-			String text1bSTR = myBundle.getString("text1b");
-			String text1cSTR = myBundle.getString("text1c");
-			text1a.setText(text1aSTR);
-			text1b.setText(text1bSTR);
-			text1c.setText(text1cSTR);
-			if (myBundle.getString("text2") != null) {
-				if (!myBundle.getString("text2").equals("")) {
-					Double int2STR = (double) (Double.parseDouble(myBundle
-							.getString("text2")) / 1.609344);
-					text2.setText(int2STR.toString());
-				}
-			}
-			String text3aSTR = myBundle.getString("text3a");
-			String text3bSTR = myBundle.getString("text3b");
-			String text3cSTR = myBundle.getString("text3c");
-			String combinedText3 = this.convertPace(text3aSTR, text3bSTR,
-					text3cSTR);
-			if (!combinedText3.equals("00:00:0.0")) {
-				text3a.setText(combinedText3.substring(0,
-						combinedText3.indexOf(":")));
-				text3b.setText(combinedText3.substring(
-						combinedText3.indexOf(":") + 1,
-						combinedText3.lastIndexOf(":")));
-				text3c.setText(combinedText3.substring(combinedText3
-						.lastIndexOf(":") + 1));
-			}
-		}*/
 		s = (Spinner) findViewById(R.id.SpinnerImperial);
 		ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
 				R.array.imperial, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		s.setAdapter(adapter);
+
+		s.setFocusable(true);
+		s.setFocusableInTouchMode(true);
+
 		s.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int selectedPosition, long arg3) {
 
 				if (selectedPosition == 0) {
-					//if (myBundle == null || myBundle.getString("text2").equals("")) {
-						text2.setText("");
-					//}
+					text2.setText("");
 					lv.setAdapter(null);
 				} else {
 					String str = getPresetDistance(selectedPosition);
@@ -113,24 +91,106 @@ public class PaceCalc extends Activity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
+		s.setOnFocusChangeListener(new OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					distanceButton.setEnabled(false);
+				} else {
+					distanceButton.setEnabled(true);
+				}
+			}
+
+		});
+
+		clearButton = (Button) findViewById(R.id.ClearButton);
+		clearButton.setTextColor(getResources().getColor(R.color.darkGrey));
 
 		switchButton = (Button) findViewById(R.id.SwitchMetrics);
+		switchButton.setTextColor(getResources().getColor(R.color.darkGrey2));
 
 		switchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent switchMetric = new Intent(getBaseContext(),
 						PaceCalcKilo.class);
-				/*Bundle myBundle = new Bundle();
-				myBundle.putString("text1a", text1a.getText().toString());
-				myBundle.putString("text1b", text1b.getText().toString());
-				myBundle.putString("text1c", text1c.getText().toString());
-				myBundle.putString("text2", text2.getText().toString());
-				myBundle.putString("text3a", text3a.getText().toString());
-				myBundle.putString("text3b", text3b.getText().toString());
-				myBundle.putString("text3c", text3c.getText().toString());
-				switchMetric.putExtras(myBundle);*/
 				startActivity(switchMetric);
 				PaceCalc.this.finish();
+			}
+		});
+
+		timeButton = (Button) findViewById(R.id.Button01);
+		distanceButton = (Button) findViewById(R.id.Button02);
+		paceButton = (Button) findViewById(R.id.Button03);
+
+		text1a.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					timeButton.setEnabled(false);
+				} else {
+					timeButton.setEnabled(true);
+				}
+			}
+		});
+		text1b.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					timeButton.setEnabled(false);
+				} else {
+					timeButton.setEnabled(true);
+				}
+			}
+		});
+		text1c.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					timeButton.setEnabled(false);
+				} else {
+					timeButton.setEnabled(true);
+				}
+			}
+		});
+		text2.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					distanceButton.setEnabled(false);
+				} else {
+					distanceButton.setEnabled(true);
+				}
+			}
+		});
+		text3a.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					paceButton.setEnabled(false);
+				} else {
+					paceButton.setEnabled(true);
+				}
+			}
+		});
+		text3b.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					paceButton.setEnabled(false);
+				} else {
+					paceButton.setEnabled(true);
+				}
+			}
+		});
+		text3c.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					paceButton.setEnabled(false);
+				} else {
+					paceButton.setEnabled(true);
+				}
 			}
 		});
 
@@ -214,6 +274,11 @@ public class PaceCalc extends Activity {
 			text1b.setText(time.substring(time.indexOf(":") + 1,
 					time.lastIndexOf(":")));
 			text1c.setText(time.substring(time.lastIndexOf(":") + 1));
+			timeButton.setEnabled(true);
+			distanceButton.setEnabled(true);
+			paceButton.setEnabled(true);
+			title.setFocusableInTouchMode(true);
+			title.requestFocus();
 			imm.hideSoftInputFromWindow(text3c.getWindowToken(), 0);
 			break;
 		case R.id.Button02:
@@ -239,6 +304,11 @@ public class PaceCalc extends Activity {
 					new Double(ccc), new Double(ddd), new Double(eee),
 					new Double(fff));
 			text2.setText(dist);
+			timeButton.setEnabled(true);
+			distanceButton.setEnabled(true);
+			paceButton.setEnabled(true);
+			title.setFocusableInTouchMode(true);
+			title.requestFocus();
 			imm.hideSoftInputFromWindow(text1c.getWindowToken(), 0);
 			break;
 		case R.id.Button03:
@@ -260,6 +330,11 @@ public class PaceCalc extends Activity {
 			text3b.setText(pace.substring(pace.indexOf(":") + 1,
 					pace.lastIndexOf(":")));
 			text3c.setText(pace.substring(pace.lastIndexOf(":") + 1));
+			timeButton.setEnabled(true);
+			distanceButton.setEnabled(true);
+			paceButton.setEnabled(true);
+			title.setFocusableInTouchMode(true);
+			title.requestFocus();
 			imm.hideSoftInputFromWindow(text2.getWindowToken(), 0);
 			break;
 		case R.id.ClearButton:
@@ -273,6 +348,11 @@ public class PaceCalc extends Activity {
 			text3c.setText("");
 			lv = (ListView) findViewById(R.id.ListView01);
 			lv.setAdapter(null);
+			timeButton.setEnabled(true);
+			distanceButton.setEnabled(true);
+			paceButton.setEnabled(true);
+			title.setFocusableInTouchMode(true);
+			title.requestFocus();
 			break;
 		}
 	}
