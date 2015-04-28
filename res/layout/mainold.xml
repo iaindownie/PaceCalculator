@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/RelativeLayout01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="@color/darkGrey">
+	<TextView android:id="@+id/strap" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:textSize="18sp"
+		android:text="Pace/Distance/Time\nCalculator" android:textColor="@color/white"
+		android:width="170dp" android:layout_marginRight="10dp" />
+	<Spinner android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:id="@+id/Spinner01"
+		android:layout_toRightOf="@+id/strap" android:width="130dip"
+		android:prompt="@string/Presets" android:layout_marginRight="2dip"/>
+		
+	<TextView android:id="@+id/topline1" android:layout_width="wrap_content"
+		android:layout_below="@+id/strap" android:layout_height="wrap_content"
+		android:text=" Hour" android:width="60dip" />
+	<TextView android:id="@+id/topline2" android:layout_width="wrap_content"
+		android:layout_below="@+id/strap" android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/topline1" android:text="Mins"
+		android:width="55dip" />
+	<TextView android:id="@+id/topline3" android:layout_width="wrap_content"
+		android:layout_below="@+id/strap" android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/topline2" android:text="Secs"
+		android:width="45dip" />
+		
+	<EditText android:text="a" android:id="@+id/EditText01a"
+		android:layout_below="@+id/topline1" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:inputType="number"
+		android:maxLength="2" android:layout_marginLeft="2dp" android:width="30dp" />
+	<EditText android:text="b" android:id="@+id/EditText01b"
+		android:layout_below="@+id/topline1" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_toRightOf="@+id/EditText01a"
+		android:inputType="number" android:maxLength="2"
+		android:layout_marginLeft="2dp" android:width="30dp"  />
+	<EditText android:text="c" android:id="@+id/EditText01c"
+		android:layout_below="@+id/topline1" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_toRightOf="@+id/EditText01b"
+		android:inputType="numberDecimal" android:maxLength="6"
+		android:layout_marginLeft="2dp"
+		android:width="40dp"  />
+	<Button android:id="@+id/Button01" android:layout_height="wrap_content"
+		android:layout_below="@+id/topline1" android:layout_width="wrap_content"
+		android:layout_toRightOf="@+id/EditText01c" android:onClick="myClickHandler"
+		android:text="Time" android:width="50dp" android:layout_marginRight="2dip" 
+		android:layout_marginLeft="2dip"/>
+		
+	<TextView android:id="@+id/midline1" android:layout_width="wrap_content"
+		android:layout_below="@+id/EditText01a" android:layout_height="wrap_content"
+		android:text=" Enter Distance (miles)" />
+	<EditText android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:text="@+id/EditText02"
+		android:id="@+id/EditText02" android:layout_below="@+id/midline1"
+		android:inputType="numberDecimal" android:maxLength="8"
+		android:layout_marginLeft="5dip" android:layout_marginRight="25dip"
+		android:width="150dip" />
+	<Button android:id="@+id/Button02" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:layout_toRightOf="@+id/EditText02"
+		android:layout_below="@+id/midline1" android:onClick="myClickHandler"
+		android:text="Distance" android:width="100dip"
+		android:layout_marginLeft="40dip" android:layout_marginRight="2dip"/>
+		
+	<TextView android:id="@+id/botline1" android:layout_width="wrap_content"
+		android:layout_below="@+id/EditText02" android:layout_height="wrap_content"
+		android:text=" Hour" android:width="60dip" />
+	<TextView android:id="@+id/botline2" android:layout_width="wrap_content"
+		android:layout_below="@+id/EditText02" android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/botline1" android:text="Mins"
+		android:width="55dip" />
+	<TextView android:id="@+id/botline3" android:layout_width="wrap_content"
+		android:layout_below="@+id/EditText02" android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/botline2" android:text="Secs"
+		android:width="45dip" />
+		
+	<EditText android:text="a2" android:id="@+id/EditText03a"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_below="@+id/botline1" android:inputType="number"
+		android:maxLength="2" android:layout_marginLeft="5dip" android:width="50dip" />
+	<EditText android:text="b2" android:id="@+id/EditText03b"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/EditText03a" android:layout_below="@+id/botline2"
+		android:inputType="number" android:maxLength="2"
+		android:layout_marginLeft="5dip" android:width="50dip" />
+	<EditText android:text="c2" android:id="@+id/EditText03c"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/EditText03b" android:layout_below="@+id/botline3"
+		android:inputType="numberDecimal" android:maxLength="6"
+		android:layout_marginLeft="5dip" 
+		android:width="70dip"  />
+	<Button android:id="@+id/Button03" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:layout_toRightOf="@+id/EditText03c"
+		android:layout_below="@+id/botline1" android:onClick="myClickHandler"
+		android:text="Pace" android:width="100dip" 
+		android:layout_marginLeft="38dip" android:layout_marginRight="2dip"/>
+<!--
+		<RadioGroup android:layout_width="fill_parent"
+		android:layout_below="@+id/EditText03a"
+	-->
+	<!--
+		android:layout_height="wrap_content" android:orientation="horizontal"
+	-->
+	<!--          android:id="@+id/group1" > -->
+	<!--
+		<RadioButton android:checked="true" android:onClick="myRadioMiles"
+	-->
+	<!--
+		android:text="pace per mile" android:id="@+id/option1" />
+	-->
+	<!--
+		<RadioButton android:checked="false" android:onClick="myRadioKms"
+	-->
+	<!--
+		android:text="pace per km" android:id="@+id/option2" />
+	-->
+	<!--     </RadioGroup> -->
+	
+		<!-- <ListView android:id="@+id/ListView01"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/EditText03a" />
+		<ListView android:id="@+id/ListView02"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/EditText03c"
+		android:layout_toRightOf="@+id/ListView01" />-->
+	<TableLayout android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:layout_below="@+id/EditText03a"
+		android:id="@+id/TableLayout01">
+		<TableRow>
+			<ListView android:id="@+id/ListView01" android:layout_width="160dip"
+				android:layout_height="wrap_content" android:layout_below="@+id/EditText03a"
+				android:background="@color/darkGrey" />
+			<ListView android:id="@+id/ListView02" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:layout_below="@+id/EditText03a"
+				android:layout_toRightOf="@+id/ListView01"
+				android:background="@color/darkGrey" />
+				<!--  -->
+		</TableRow>
+	</TableLayout>
+</RelativeLayout>

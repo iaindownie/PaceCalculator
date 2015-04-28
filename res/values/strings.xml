@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Pace calculator for converting pace, distance and
+		time</string>
+	<string name="app_name">Pace Calculator</string>
+	<color name="white">#FFFFFF</color>
+	<color name="darkgreen">#2A5F00</color>
+	<color name="red">#CC0000</color>
+	<string name="dist_prompt">Choose a measure</string>
+	<color name="darkGrey">#5A5A5A</color>
+	<color name="darkGrey2">#6E6F6F</color>
+	<string name="Presets">Presets</string>
+</resources>
