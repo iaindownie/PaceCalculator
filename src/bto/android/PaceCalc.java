@@ -9,8 +9,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,6 +62,13 @@ public class PaceCalc extends Activity {
 		text1b.setWidth(10);
 		text1c.setWidth(10);
 		lv = (ListView) findViewById(R.id.ListView01);
+		clearButton = (Button) findViewById(R.id.ClearButton);
+		clearButton.setTextColor(getResources().getColor(R.color.darkGrey));
+		switchButton = (Button) findViewById(R.id.SwitchMetrics);
+		switchButton.setTextColor(getResources().getColor(R.color.darkGrey));
+		timeButton = (Button) findViewById(R.id.Button01);
+		distanceButton = (Button) findViewById(R.id.Button02);
+		paceButton = (Button) findViewById(R.id.Button03);
 
 		s = (Spinner) findViewById(R.id.SpinnerImperial);
 		ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
@@ -71,8 +76,8 @@ public class PaceCalc extends Activity {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		s.setAdapter(adapter);
 
-		//s.setFocusable(true);
-		//s.setFocusableInTouchMode(true);
+		// s.setFocusable(true);
+		// s.setFocusableInTouchMode(true);
 
 		s.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -86,6 +91,7 @@ public class PaceCalc extends Activity {
 					String str = getPresetDistance(selectedPosition);
 					text2.setText(str);
 					distanceButton.setEnabled(false);
+					text2.setFocusable(true);
 					text2.setFocusableInTouchMode(true);
 					text2.requestFocus();
 				}
@@ -94,25 +100,16 @@ public class PaceCalc extends Activity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		/*s.setOnFocusChangeListener(new OnFocusChangeListener() {
-
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					distanceButton.setEnabled(false);
-				} else {
-					distanceButton.setEnabled(true);
-				}
-				super.onFocusChange(v, hasFocus);
-			}
-
-		});*/
-
-		clearButton = (Button) findViewById(R.id.ClearButton);
-		clearButton.setTextColor(getResources().getColor(R.color.darkGrey));
-
-		switchButton = (Button) findViewById(R.id.SwitchMetrics);
-		switchButton.setTextColor(getResources().getColor(R.color.darkGrey2));
+		/*
+		 * s.setOnFocusChangeListener(new OnFocusChangeListener() {
+		 * 
+		 * @Override public void onFocusChange(View v, boolean hasFocus) { if
+		 * (hasFocus) { distanceButton.setEnabled(false); } else {
+		 * distanceButton.setEnabled(true); } super.onFocusChange(v, hasFocus);
+		 * }
+		 * 
+		 * });
+		 */
 
 		switchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -122,10 +119,6 @@ public class PaceCalc extends Activity {
 				PaceCalc.this.finish();
 			}
 		});
-
-		timeButton = (Button) findViewById(R.id.Button01);
-		distanceButton = (Button) findViewById(R.id.Button02);
-		paceButton = (Button) findViewById(R.id.Button03);
 
 		text1a.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
@@ -240,7 +233,7 @@ public class PaceCalc extends Activity {
 		spawny.append("Simply enter target time and distance to get pace, ");
 		spawny.append("or vary the combinations.\n\nThe mile and kilo ");
 		spawny.append("splits are scrollable, but are subject to rounding ");
-		spawny.append("errors so may be a tiny bit off...\n\n");
+		spawny.append("errors so may be a tiny, tiny bit off...\n\n");
 		spawny.append("This is a Spawny App\nby Iain Downie!");
 		text.setText(spawny.toString());
 		ImageView image = (ImageView) dialog.findViewById(R.id.image);
@@ -370,13 +363,14 @@ public class PaceCalc extends Activity {
 			results.add("Mile - " + (i + 1) + ":  "
 					+ getGoodTimeValues(pace * (i + 1)));
 		}
-		results.add("Last split - " + dist + ":  " + getGoodTimeEndValues(total));
+		results.add("Last split - " + dist + ":  "
+				+ getGoodTimeEndValues(total));
 		String[] splits = results.toArray(new String[results.size()]);
 		ListAdapter birds = (ListAdapter) (new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, splits));
 		lv.setAdapter(birds);
 		lv.setTextFilterEnabled(true);
-		
+
 	}
 
 	private String getGoodTimeEndValues(double val) {
@@ -389,7 +383,8 @@ public class PaceCalc extends Activity {
 					+ ":" + paddedInt((int) Math.round(secs * 60)));
 			return str;
 		} else {
-			return "0:" + paddedInt(mins) + ":" + paddedInt((int) Math.round(secs * 60));
+			return "0:" + paddedInt(mins) + ":"
+					+ paddedInt((int) Math.round(secs * 60));
 		}
 	}
 
@@ -398,14 +393,18 @@ public class PaceCalc extends Activity {
 		double secs = val - mins;
 		if (mins >= 60) {
 			int hours = mins / 60;
-			/*String str = (hours + ":" + (paddedInt((mins - (hours * 60))))
-					+ ":" + paddedInt((int) (secs * 60)));*/
+			/*
+			 * String str = (hours + ":" + (paddedInt((mins - (hours * 60)))) +
+			 * ":" + paddedInt((int) (secs * 60)));
+			 */
 			String str = (hours + ":" + (paddedInt((mins - (hours * 60))))
 					+ ":" + paddedInt((int) Math.round(secs * 60)));
 			return str;
 		} else {
-			//return "0:" + paddedInt(mins) + ":" + paddedInt((int) (secs * 60));
-			return "0:" + paddedInt(mins) + ":" + paddedInt((int) Math.round(secs * 60));
+			// return "0:" + paddedInt(mins) + ":" + paddedInt((int) (secs *
+			// 60));
+			return "0:" + paddedInt(mins) + ":"
+					+ paddedInt((int) Math.round(secs * 60));
 		}
 	}
 

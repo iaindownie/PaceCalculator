@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -38,24 +39,36 @@ public class PaceCalcKilo extends Activity {
 	private ListView lv;
 	private PackageInfo pInfo = null;
 	private Button switchButton;
-
+	private Button clearButton;
+	private Button timeButton;
+	private Button distanceButton;
+	private Button paceButton;
+	private TextView title;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_kilo); // bind the layout to the activity
-		text1a = (EditText) findViewById(R.id.EditText01a);
-		text1b = (EditText) findViewById(R.id.EditText01b);
-		text1c = (EditText) findViewById(R.id.EditText01c);
-		text2 = (EditText) findViewById(R.id.EditText02);
-		text3a = (EditText) findViewById(R.id.EditText03a);
-		text3b = (EditText) findViewById(R.id.EditText03b);
-		text3c = (EditText) findViewById(R.id.EditText03c);
+		title = (TextView) findViewById(R.id.strapkm);
+		text1a = (EditText) findViewById(R.id.EditText01akm);
+		text1b = (EditText) findViewById(R.id.EditText01bkm);
+		text1c = (EditText) findViewById(R.id.EditText01ckm);
+		text2 = (EditText) findViewById(R.id.EditText02km);
+		text3a = (EditText) findViewById(R.id.EditText03akm);
+		text3b = (EditText) findViewById(R.id.EditText03bkm);
+		text3c = (EditText) findViewById(R.id.EditText03ckm);
 		text1a.setWidth(10);
 		text1b.setWidth(10);
 		text1c.setWidth(10);
 		lv = (ListView) findViewById(R.id.ListViewMetric);
+		clearButton = (Button) findViewById(R.id.ClearButtonkm);
+		clearButton.setTextColor(getResources().getColor(R.color.darkGrey));
+		switchButton = (Button) findViewById(R.id.SwitchMetricskm);
+		switchButton.setTextColor(getResources().getColor(R.color.darkGrey));
+		timeButton = (Button) findViewById(R.id.Button01km);
+		distanceButton = (Button) findViewById(R.id.Button02km);
+		paceButton = (Button) findViewById(R.id.Button03km);
 
 		s = (Spinner) findViewById(R.id.SpinnerMetric);
 		ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
@@ -73,6 +86,10 @@ public class PaceCalcKilo extends Activity {
 				} else {
 					String str = getPresetDistance(selectedPosition);
 					text2.setText(str);
+					distanceButton.setEnabled(false);
+					text2.setFocusable(true);
+					text2.setFocusableInTouchMode(true);
+					text2.requestFocus();
 				}
 			}
 
@@ -80,14 +97,83 @@ public class PaceCalcKilo extends Activity {
 			}
 		});
 
-		switchButton = (Button) findViewById(R.id.SwitchMetrics);
-
 		switchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent switchMetric = new Intent(getBaseContext(),
 						PaceCalc.class);
 				startActivity(switchMetric);
 				PaceCalcKilo.this.finish();
+			}
+		});
+
+		text1a.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					timeButton.setEnabled(false);
+				} else {
+					timeButton.setEnabled(true);
+				}
+			}
+		});
+		text1b.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					timeButton.setEnabled(false);
+				} else {
+					timeButton.setEnabled(true);
+				}
+			}
+		});
+		text1c.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					timeButton.setEnabled(false);
+				} else {
+					timeButton.setEnabled(true);
+				}
+			}
+		});
+		text2.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					distanceButton.setEnabled(false);
+				} else {
+					distanceButton.setEnabled(true);
+				}
+			}
+		});
+		text3a.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					paceButton.setEnabled(false);
+				} else {
+					paceButton.setEnabled(true);
+				}
+			}
+		});
+		text3b.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					paceButton.setEnabled(false);
+				} else {
+					paceButton.setEnabled(true);
+				}
+			}
+		});
+		text3c.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					paceButton.setEnabled(false);
+				} else {
+					paceButton.setEnabled(true);
+				}
 			}
 		});
 
@@ -133,7 +219,7 @@ public class PaceCalcKilo extends Activity {
 		spawny.append("Simply enter target time and distance to get pace, ");
 		spawny.append("or vary the combinations.\n\nThe mile and kilo ");
 		spawny.append("splits are scrollable, but are subject to rounding ");
-		spawny.append("errors so may be a tiny bit off...\n\n");
+		spawny.append("errors so may be a tiny, tiny bit off...\n\n");
 		spawny.append("This is a Spawny App\nby Iain Downie!");
 		text.setText(spawny.toString());
 		ImageView image = (ImageView) dialog.findViewById(R.id.image);
@@ -152,7 +238,7 @@ public class PaceCalcKilo extends Activity {
 
 		InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
 		switch (view.getId()) {
-		case R.id.Button01:
+		case R.id.Button01km:
 			String t3a = text3a.getText().toString();
 			if (t3a == null || t3a.length() == 0)
 				t3a = "0";
@@ -173,9 +259,14 @@ public class PaceCalcKilo extends Activity {
 			text1b.setText(time.substring(time.indexOf(":") + 1,
 					time.lastIndexOf(":")));
 			text1c.setText(time.substring(time.lastIndexOf(":") + 1));
+			timeButton.setEnabled(true);
+			distanceButton.setEnabled(true);
+			paceButton.setEnabled(true);
+			title.setFocusableInTouchMode(true);
+			title.requestFocus();
 			imm.hideSoftInputFromWindow(text3c.getWindowToken(), 0);
 			break;
-		case R.id.Button02:
+		case R.id.Button02km:
 			String aaa = text1a.getText().toString();
 			if (aaa == null || aaa.length() == 0)
 				aaa = "0";
@@ -202,9 +293,14 @@ public class PaceCalcKilo extends Activity {
 					new Double(ccc), new Double(ddd), new Double(eee),
 					new Double(fff));
 			text2.setText(dist);
+			timeButton.setEnabled(true);
+			distanceButton.setEnabled(true);
+			paceButton.setEnabled(true);
+			title.setFocusableInTouchMode(true);
+			title.requestFocus();
 			imm.hideSoftInputFromWindow(text1c.getWindowToken(), 0);
 			break;
-		case R.id.Button03:
+		case R.id.Button03km:
 			String t1a = text1a.getText().toString();
 			if (t1a == null || t1a.length() == 0)
 				t1a = "0";
@@ -225,9 +321,14 @@ public class PaceCalcKilo extends Activity {
 			text3b.setText(pace.substring(pace.indexOf(":") + 1,
 					pace.lastIndexOf(":")));
 			text3c.setText(pace.substring(pace.lastIndexOf(":") + 1));
+			timeButton.setEnabled(true);
+			distanceButton.setEnabled(true);
+			paceButton.setEnabled(true);
+			title.setFocusableInTouchMode(true);
+			title.requestFocus();
 			imm.hideSoftInputFromWindow(text2.getWindowToken(), 0);
 			break;
-		case R.id.ClearButton:
+		case R.id.ClearButtonkm:
 			text1a.setText("");
 			text1b.setText("");
 			text1c.setText("");
@@ -238,6 +339,11 @@ public class PaceCalcKilo extends Activity {
 			text3c.setText("");
 			lv = (ListView) findViewById(R.id.ListViewMetric);
 			lv.setAdapter(null);
+			timeButton.setEnabled(true);
+			distanceButton.setEnabled(true);
+			paceButton.setEnabled(true);
+			title.setFocusableInTouchMode(true);
+			title.requestFocus();
 			break;
 		}
 	}
@@ -247,13 +353,13 @@ public class PaceCalcKilo extends Activity {
 		ArrayList<String> results = new ArrayList<String>();
 		results.add("Kilometre splits (rounded to seconds)");
 		double pace = (total / dist) / 60;
-		System.out.println("Pace:" + pace);
 		// dist = Math.round(dist / 1.609344);
 		for (int i = 0; i < (int) dist; i++) {
 			results.add("Km - " + (i + 1) + ": "
 					+ getGoodTimeValues(pace * (i + 1)));
 		}
-		results.add("Last split: " + getGoodTimeEndValues(total));
+		results.add("Last split - " + dist + ":  "
+				+ getGoodTimeEndValues(total));
 		String[] splits = results.toArray(new String[results.size()]);
 		ListAdapter birds = (ListAdapter) (new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, splits));
@@ -269,10 +375,11 @@ public class PaceCalcKilo extends Activity {
 		if (mins >= 60) {
 			int hours = mins / 60;
 			String str = (hours + ":" + (paddedInt((mins - (hours * 60))))
-					+ ":" + paddedInt((int) (secs * 60)));
+					+ ":" + paddedInt((int) Math.round(secs * 60)));
 			return str;
 		} else {
-			return "0:" + paddedInt(mins) + ":" + paddedInt((int) (secs * 60));
+			return "0:" + paddedInt(mins) + ":"
+					+ paddedInt((int) Math.round(secs * 60));
 		}
 	}
 
@@ -281,50 +388,20 @@ public class PaceCalcKilo extends Activity {
 		double secs = val - mins;
 		if (mins >= 60) {
 			int hours = mins / 60;
+			/*
+			 * String str = (hours + ":" + (paddedInt((mins - (hours * 60)))) +
+			 * ":" + paddedInt((int) (secs * 60)));
+			 */
 			String str = (hours + ":" + (paddedInt((mins - (hours * 60))))
-					+ ":" + paddedInt((int) (secs * 60)));
+					+ ":" + paddedInt((int) Math.round(secs * 60)));
 			return str;
 		} else {
-			return "0:" + paddedInt(mins) + ":" + paddedInt((int) (secs * 60));
+			// return "0:" + paddedInt(mins) + ":" + paddedInt((int) (secs *
+			// 60));
+			return "0:" + paddedInt(mins) + ":"
+					+ paddedInt((int) Math.round(secs * 60));
 		}
 	}
-
-	/*
-	 * private String getGoodTimeLastValue(double secs) { int hours = (int)
-	 * (secs / 60 / 60); int mins = (int) (secs - (hours * 60 * 60)); int
-	 * seconds = (int) (secs - ((hours * 60 * 60) + (mins * 60)));
-	 * 
-	 * return paddedInt(hours) + ":" + paddedInt(mins) + ":" +
-	 * paddedInt(seconds); }
-	 */
-
-	/*
-	 * public void myRadioMiles(View view) { switch (view.getId()) { case
-	 * R.id.option1: String t1a = text1a.getText().toString(); if (t1a == null
-	 * || t1a.length() == 0) t1a = "0"; String t1b =
-	 * text1b.getText().toString(); if (t1b == null || t1b.length() == 0) t1b =
-	 * "0"; String t1c = text1c.getText().toString(); if (t1c == null ||
-	 * t1c.length() == 0) t1c = "0"; String d3 = text2.getText().toString(); if
-	 * (d3 == null || d3.length() == 0) d3 = "0"; String pace = getAltPace(true,
-	 * new Double(d3), new Double(t1a), new Double( t1b), new Double(t1c));
-	 * text3a.setText(pace.substring(0, pace.indexOf(":")));
-	 * text3b.setText(pace.substring(pace.indexOf(":") + 1, pace
-	 * .lastIndexOf(":"))); //text3c.setText("1.23");
-	 * text3c.setText(pace.substring(pace.lastIndexOf(":") + 1)); break; } }
-	 * 
-	 * public void myRadioKms(View view) { switch (view.getId()) { case
-	 * R.id.option2: String t1a = text1a.getText().toString(); if (t1a == null
-	 * || t1a.length() == 0) t1a = "0"; String t1b =
-	 * text1b.getText().toString(); if (t1b == null || t1b.length() == 0) t1b =
-	 * "0"; String t1c = text1c.getText().toString(); if (t1c == null ||
-	 * t1c.length() == 0) t1c = "0"; String d3 = text2.getText().toString(); if
-	 * (d3 == null || d3.length() == 0) d3 = "0"; String pace =
-	 * getAltPace(false, new Double(d3), new Double(t1a), new Double( t1b), new
-	 * Double(t1c)); text3a.setText(pace.substring(0, pace.indexOf(":")));
-	 * text3b.setText(pace.substring(pace.indexOf(":") + 1, pace
-	 * .lastIndexOf(":"))); //text3c.setText("3.21");
-	 * text3c.setText(pace.substring(pace.lastIndexOf(":") + 1)); break; } }
-	 */
 
 	private String getTime(Double dist, Double hours, Double mins, Double secs) {
 		double total = 0.0;
@@ -336,8 +413,6 @@ public class PaceCalcKilo extends Activity {
 		int tHours = (int) (total / 60 / 60);
 		int tMins = (int) ((total / 60) - (tHours * 60));
 		double tSecs = (double) (total - ((tHours * 60 * 60) + (tMins * 60)));
-		// New code to calculate splits
-		// if(dist!=null)
 		this.setSplits(dist.doubleValue(), total);
 
 		return paddedInt(tHours) + ":" + paddedInt(tMins) + ":" + tSecs;
@@ -390,18 +465,6 @@ public class PaceCalcKilo extends Activity {
 		double tSecs = (double) (convertedSecs - ((tHours * 60 * 60) + (tMins * 60)));
 		return (paddedInt(tHours) + ":" + paddedInt(tMins) + ":" + tSecs);
 	}
-
-	/*
-	 * private String getAltPace(boolean miles, Double dist, Double hours,
-	 * Double mins, Double secs) { double totalSecs = 0.0; if (hours > 0) {
-	 * totalSecs = (hours * 60 * 60) + (60 * mins) + secs; } else { totalSecs =
-	 * (60 * mins) + secs; } double total = totalSecs / dist; if (!miles) total
-	 * = total * 0.6213712; else total = total * 1.609344; int tHours = (int)
-	 * (total / 60 / 60); int tMins = (int) ((total / 60) - (tHours * 60));
-	 * Double tSecs = new Double((total - ((tHours * 60 * 60) + (tMins * 60))));
-	 * if (!tSecs.isNaN()) { return paddedInt(tHours) + ":" + paddedInt(tMins) +
-	 * ":" + tSecs.doubleValue(); } else return "00:00:0.0"; }
-	 */
 
 	private String getDistance(Double hours1, Double mins1, Double secs1,
 			Double hours2, Double mins2, Double secs2) {
