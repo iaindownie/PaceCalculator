@@ -71,8 +71,8 @@ public class PaceCalc extends Activity {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		s.setAdapter(adapter);
 
-		s.setFocusable(true);
-		s.setFocusableInTouchMode(true);
+		//s.setFocusable(true);
+		//s.setFocusableInTouchMode(true);
 
 		s.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -85,13 +85,16 @@ public class PaceCalc extends Activity {
 				} else {
 					String str = getPresetDistance(selectedPosition);
 					text2.setText(str);
+					distanceButton.setEnabled(false);
+					text2.setFocusableInTouchMode(true);
+					text2.requestFocus();
 				}
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		s.setOnFocusChangeListener(new OnFocusChangeListener() {
+		/*s.setOnFocusChangeListener(new OnFocusChangeListener() {
 
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -100,9 +103,10 @@ public class PaceCalc extends Activity {
 				} else {
 					distanceButton.setEnabled(true);
 				}
+				super.onFocusChange(v, hasFocus);
 			}
 
-		});
+		});*/
 
 		clearButton = (Button) findViewById(R.id.ClearButton);
 		clearButton.setTextColor(getResources().getColor(R.color.darkGrey));
@@ -360,30 +364,19 @@ public class PaceCalc extends Activity {
 	public void setSplits(double dist, double total) {
 		lv = (ListView) findViewById(R.id.ListView01);
 		ArrayList<String> results = new ArrayList<String>();
-		results.add("Mile splits");
+		results.add("Mile splits (rounded to seconds)");
 		double pace = (total / dist) / 60;
 		for (int i = 0; i < (int) dist; i++) {
-			results.add("Mile - " + (i + 1) + ": "
+			results.add("Mile - " + (i + 1) + ":  "
 					+ getGoodTimeValues(pace * (i + 1)));
 		}
-		results.add("Last split: " + getGoodTimeEndValues(total));
+		results.add("Last split - " + dist + ":  " + getGoodTimeEndValues(total));
 		String[] splits = results.toArray(new String[results.size()]);
 		ListAdapter birds = (ListAdapter) (new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, splits));
 		lv.setAdapter(birds);
 		lv.setTextFilterEnabled(true);
-		/*
-		 * lv2 = (ListView) findViewById(R.id.ListView02); //
-		 * lv2.setMinimumWidth(160); ArrayList<String> results2 = new
-		 * ArrayList<String>(); results2.add("Km splits"); dist =
-		 * Math.round(dist * 1.609344); double pace2 = ((total / dist) / 60);
-		 * for (int i = 0; i < (int) dist; i++) { results2.add("K-" + (i + 1) +
-		 * ": " + getGoodTimeValues(pace2 * (i + 1))); } results2.add("End: " +
-		 * getGoodTimeEndValues(total)); String[] splits2 = results2.toArray(new
-		 * String[results2.size()]); ListAdapter birds2 = (ListAdapter) (new
-		 * ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-		 * splits2)); lv2.setAdapter(birds2); lv2.setTextFilterEnabled(true);
-		 */
+		
 	}
 
 	private String getGoodTimeEndValues(double val) {
@@ -393,10 +386,10 @@ public class PaceCalc extends Activity {
 		if (mins >= 60) {
 			int hours = mins / 60;
 			String str = (hours + ":" + (paddedInt((mins - (hours * 60))))
-					+ ":" + paddedInt((int) (secs * 60)));
+					+ ":" + paddedInt((int) Math.round(secs * 60)));
 			return str;
 		} else {
-			return "0:" + paddedInt(mins) + ":" + paddedInt((int) (secs * 60));
+			return "0:" + paddedInt(mins) + ":" + paddedInt((int) Math.round(secs * 60));
 		}
 	}
 
@@ -405,11 +398,14 @@ public class PaceCalc extends Activity {
 		double secs = val - mins;
 		if (mins >= 60) {
 			int hours = mins / 60;
+			/*String str = (hours + ":" + (paddedInt((mins - (hours * 60))))
+					+ ":" + paddedInt((int) (secs * 60)));*/
 			String str = (hours + ":" + (paddedInt((mins - (hours * 60))))
-					+ ":" + paddedInt((int) (secs * 60)));
+					+ ":" + paddedInt((int) Math.round(secs * 60)));
 			return str;
 		} else {
-			return "0:" + paddedInt(mins) + ":" + paddedInt((int) (secs * 60));
+			//return "0:" + paddedInt(mins) + ":" + paddedInt((int) (secs * 60));
+			return "0:" + paddedInt(mins) + ":" + paddedInt((int) Math.round(secs * 60));
 		}
 	}
 

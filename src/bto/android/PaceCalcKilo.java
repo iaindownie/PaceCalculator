@@ -245,8 +245,9 @@ public class PaceCalcKilo extends Activity {
 	public void setSplits(double dist, double total) {
 		lv = (ListView) findViewById(R.id.ListViewMetric);
 		ArrayList<String> results = new ArrayList<String>();
-		results.add("Kilometre splits");
+		results.add("Kilometre splits (rounded to seconds)");
 		double pace = (total / dist) / 60;
+		System.out.println("Pace:" + pace);
 		// dist = Math.round(dist / 1.609344);
 		for (int i = 0; i < (int) dist; i++) {
 			results.add("Km - " + (i + 1) + ": "
