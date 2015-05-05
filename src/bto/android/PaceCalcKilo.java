@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -71,7 +72,7 @@ public class PaceCalcKilo extends Activity {
 		paceButton = (Button) findViewById(R.id.Button03km);
 
 		s = (Spinner) findViewById(R.id.SpinnerMetric);
-		ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
 				R.array.metric, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		s.setAdapter(adapter);
@@ -236,7 +237,7 @@ public class PaceCalcKilo extends Activity {
 
 	public void myClickHandler(View view) {
 
-		InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		switch (view.getId()) {
 		case R.id.Button01km:
 			String t3a = text3a.getText().toString();
@@ -253,8 +254,8 @@ public class PaceCalcKilo extends Activity {
 			String d2 = text2.getText().toString();
 			if (d2 == null || d2.length() == 0)
 				d2 = "0";
-			String time = getTime(new Double(d2), new Double(t3a), new Double(
-					t3b), new Double(t3c));
+			String time = getTime(Double.valueOf(d2), Double.valueOf(t3a), Double.valueOf(
+					t3b), Double.valueOf(t3c));
 			text1a.setText(time.substring(0, time.indexOf(":")));
 			text1b.setText(time.substring(time.indexOf(":") + 1,
 					time.lastIndexOf(":")));
@@ -289,9 +290,9 @@ public class PaceCalcKilo extends Activity {
 			// if((new Integer(fff).intValue()>59)) { doError(); break; }
 			if (fff == null || fff.length() == 0)
 				fff = "0";
-			String dist = getDistance(new Double(aaa), new Double(bbb),
-					new Double(ccc), new Double(ddd), new Double(eee),
-					new Double(fff));
+			String dist = getDistance(Double.valueOf(aaa), Double.valueOf(bbb),
+					Double.valueOf(ccc), Double.valueOf(ddd), Double.valueOf(eee),
+					Double.valueOf(fff));
 			text2.setText(dist);
 			timeButton.setEnabled(true);
 			distanceButton.setEnabled(true);
@@ -315,8 +316,8 @@ public class PaceCalcKilo extends Activity {
 			String d3 = text2.getText().toString();
 			if (d3 == null || d3.length() == 0)
 				d3 = "0";
-			String pace = getPace(new Double(d3), new Double(t1a), new Double(
-					t1b), new Double(t1c));
+			String pace = getPace(Double.valueOf(d3), Double.valueOf(t1a), Double.valueOf(
+					t1b), Double.valueOf(t1c));
 			text3a.setText(pace.substring(0, pace.indexOf(":")));
 			text3b.setText(pace.substring(pace.indexOf(":") + 1,
 					pace.lastIndexOf(":")));
@@ -428,7 +429,7 @@ public class PaceCalcKilo extends Activity {
 		double total = totalSecs / dist;
 		int tHours = (int) (total / 60 / 60);
 		int tMins = (int) ((total / 60) - (tHours * 60));
-		Double tSecs = new Double((total - ((tHours * 60 * 60) + (tMins * 60))));
+		Double tSecs = Double.valueOf((total - ((tHours * 60 * 60) + (tMins * 60))));
 		if (!tSecs.isNaN()) {
 			// if(dist!=null)
 			this.setSplits(dist.doubleValue(), totalSecs);
@@ -439,7 +440,7 @@ public class PaceCalcKilo extends Activity {
 		}
 	}
 
-	private String convertPace(String hours, String mins, String secs) {
+	/*private String convertPace(String hours, String mins, String secs) {
 		double totalSecs = 0.0;
 		if (hours == null || hours.equals("")) {
 			hours = "0";
@@ -464,7 +465,7 @@ public class PaceCalcKilo extends Activity {
 		int tMins = (int) ((convertedSecs / 60) - (tHours * 60));
 		double tSecs = (double) (convertedSecs - ((tHours * 60 * 60) + (tMins * 60)));
 		return (paddedInt(tHours) + ":" + paddedInt(tMins) + ":" + tSecs);
-	}
+	}*/
 
 	private String getDistance(Double hours1, Double mins1, Double secs1,
 			Double hours2, Double mins2, Double secs2) {
