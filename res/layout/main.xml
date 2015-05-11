@@ -226,7 +226,7 @@
                     android:textSize="12sp"
                     android:width="100dip" />
             </LinearLayout>
- <!-- android:layout_marginLeft="103dip" -->
+
         </TableRow>
 
         <TableRow
