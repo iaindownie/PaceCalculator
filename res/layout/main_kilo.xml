@@ -208,13 +208,15 @@
 
                 <Spinner
                     android:id="@+id/SpinnerMetric"
-                    android:layout_width="175dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:prompt="@string/Presets" />
+                    android:prompt="@string/Presets" 
+                    android:layout_weight="1"/>
 
                 <Button
                     android:id="@+id/Button02km"
-                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_width="100dip"
                     android:layout_height="fill_parent"
                     android:layout_below="@+id/midline1"
                     android:layout_toRightOf="@+id/EditText02"
